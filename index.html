@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Youth Ebook Rise</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; max-width: 500px; margin: auto; }
+    button { padding: 10px 20px; background: blue; color: white; border: none; cursor: pointer; }
+    input { padding: 8px; width: 100%; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Youth Ebook Rise</h1>
+  <p style="font-size:1.1rem">
+    "Youth Ebook Rise is a power‑packed digital guide to help young minds unlock their potential, build strong habits, and start their journey toward personal growth. Learn practical tips, success mindsets, and self‑discipline from Day 1!"
+  </p>
+  <h2>₹50 Only</h2>
+  <input type="email" id="email" placeholder="Your email" required>
+  <button onclick="payNow()">Buy Now</button>
+
+  <script>
+    async function payNow() {
+      const email = document.getElementById('email').value;
+      if (!email) return alert('Please enter email');
+      const res = await fetch('/create-order', { method: 'POST' });
+      const order = await res.json();
+      const rzp = new Razorpay({
+        key: 'YOUR_RAZORPAY_KEY_ID',
+        amount: order.amount,
+        currency: 'INR',
+        name: 'Youth Ebook Rise',
+        description: 'Digital Guide for Youth',
+        order_id: order.id,
+        handler: async (resp) => {
+          await fetch('/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...resp, email })
+          });
+          alert('Payment successful! Check your email for the eBook.');
+        },
+        prefill: { email }
+      });
+      rzp.open();
+    }
+  </script>
+</body>
+</html>
