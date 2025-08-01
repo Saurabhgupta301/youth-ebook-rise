@@ -1,0 +1,162 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 30px 0;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: #ff4b8c;
+}
+
+header p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.hero img {
+    width: 280px;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(255, 75, 140, 0.3);
+    transform: rotate(-2deg);
+}
+
+/* Ebook Description */
+.ebook-details {
+    max-width: 600px;
+}
+
+.ebook-details h2 {
+    color: #ff4b8c;
+    margin-bottom: 15px;
+}
+
+.ebook-details p {
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+/* Counter Section */
+.counter {
+    text-align: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 30px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.counter h3 {
+    color: #ff4b8c;
+    font-size: 2rem;
+}
+
+.counter span {
+    display: block;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+/* Buy Button */
+.buy-button {
+    display: inline-block;
+    background: linear-gradient(90deg, #ff4b8c, #ff6f91);
+    color: white;
+    padding: 15px 40px;
+    font-size: 1.3rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    margin: 20px auto;
+    transition: transform 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 75, 140, 0.4);
+}
+
+.buy-button:hover {
+    transform: scale(1.05);
+}
+
+/* Testimonials */
+.testimonials {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+}
+
+.testimonials h2 {
+    text-align: center;
+    color: #ff4b8c;
+    margin-bottom: 20px;
+}
+
+.testimonial-item {
+    background: #ffe6eb;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.testimonial-item p {
+    font-style: italic;
+}
+
+.testimonial-item .author {
+    text-align: right;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 40px;
+    color: #555;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero img {
+        margin-bottom: 20px;
+    }
+}
