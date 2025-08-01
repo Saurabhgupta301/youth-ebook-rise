@@ -182,6 +182,9 @@
 
     <div class="price">💰 Only ₹49</div>
     <a href="#" class="buy-btn">🔥 Buy Now with Razorpay</a>
+    <p style="text-align:center; font-size:0.9rem; margin-top:10px; color:#888;">
+      📩 eBook will be instantly emailed to you after successful purchase
+    </p>
 
     <section class="purchase-counter">
       🎉 Join <span id="buyerCount">100</span> readers who have already unlocked this blueprint!
@@ -211,6 +214,47 @@
       count++;
       document.getElementById('buyerCount').textContent = count;
     }, 60000);
+  </script>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    document.querySelector('.buy-btn').addEventListener('click', async (e) => {
+      e.preventDefault();
+
+      const orderRes = await fetch('/create-order', { method: 'POST' });
+      const order = await orderRes.json();
+
+      const options = {
+        key: "YOUR_RAZORPAY_KEY_ID",
+        amount: order.amount,
+        currency: "INR",
+        name: "Youth E-Book Rise",
+        description: "1 Crore in 365 Days eBook",
+        order_id: order.id,
+        handler: async function (response) {
+          const email = prompt("Enter your email to receive the eBook:");
+          if (!email) return alert("Email is required!");
+
+          const verifyRes = await fetch('/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              ...response, 
+              email 
+            })
+          });
+          const data = await verifyRes.json();
+          if (data.status === 'sent') {
+            alert("✅ Payment successful! The eBook has been sent to your email.");
+          } else {
+            alert("⚠️ Payment verified, but email sending failed.");
+          }
+        },
+        theme: { color: "#ff1493" }
+      };
+      const rzp = new Razorpay(options);
+      rzp.open();
+    });
   </script>
 </body>
 </html>
