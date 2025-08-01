@@ -216,45 +216,34 @@
     }, 60000);
   </script>
 
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  <script>
-    document.querySelector('.buy-btn').addEventListener('click', async (e) => {
-      e.preventDefault();
-
-      const orderRes = await fetch('/create-order', { method: 'POST' });
-      const order = await orderRes.json();
-
-      const options = {
-        key: "YOUR_RAZORPAY_KEY_ID",
-        amount: order.amount,
-        currency: "INR",
-        name: "Youth E-Book Rise",
-        description: "1 Crore in 365 Days eBook",
-        order_id: order.id,
-        handler: async function (response) {
-          const email = prompt("Enter your email to receive the eBook:");
-          if (!email) return alert("Email is required!");
-
-          const verifyRes = await fetch('/verify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-              ...response, 
-              email 
-            })
-          });
-          const data = await verifyRes.json();
-          if (data.status === 'sent') {
-            alert("✅ Payment successful! The eBook has been sent to your email.");
-          } else {
-            alert("⚠️ Payment verified, but email sending failed.");
-          }
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+function payNow() {
+    var options = {
+        "key": "your_test_key_id", // Test Key
+        "amount": 4900, // Amount in paise (₹49)
+        "currency": "INR",
+        "name": "Youth E-Book Rise",
+        "description": "1 Crore in 365 Days",
+        "image": "ebook-cover-3d.png",
+        "handler": function (response){
+            alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+            // Here you can also send response to server for email delivery
         },
-        theme: { color: "#ff1493" }
-      };
-      const rzp = new Razorpay(options);
-      rzp.open();
-    });
-  </script>
+        "prefill": {
+            "name": "",
+            "email": ""
+        },
+        "theme": {
+            "color": "#ff1493"
+        }
+    };
+    var rzp = new Razorpay(options);
+    rzp.open();
+}
+</script>
+
+<button onclick="payNow()" class="buy-btn">🔥 Buy Now</button>
+
 </body>
 </html>
