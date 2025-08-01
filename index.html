@@ -3,90 +3,148 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Youth Ebook Rise</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <title>Youth E-Book Rise</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8f9fa;
+      color: #333;
+    }
+    header {
+      background: #007bff;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+    }
+    header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+    header p { font-size: 1.2rem; }
+    
+    .container {
+      width: 90%;
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .ebook-cover {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .ebook-cover img {
+      width: 220px;
+      transform: perspective(600px) rotateY(-15deg);
+      box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+    }
+
+    .price {
+      text-align: center;
+      font-size: 1.5rem;
+      margin: 20px 0;
+      color: #28a745;
+    }
+    .buy-btn {
+      display: block;
+      width: 100%;
+      background: #28a745;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      margin-top: 20px;
+    }
+    .buy-btn:hover { background: #218838; }
+
+    /* Purchase counter */
+    .purchase-counter {
+      text-align: center;
+      background: #fff3cd;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 8px;
+      font-size: 20px;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      margin-top: 40px;
+    }
+    .testimonial {
+      background: #f1f1f1;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 8px;
+    }
+    .testimonial strong { color: #007bff; }
+
+    footer {
+      text-align: center;
+      background: #343a40;
+      color: white;
+      padding: 15px;
+      margin-top: 30px;
+    }
+  </style>
 </head>
-<body class="bg-white text-gray-900">
-  <!-- Hero Section -->
-  <section class="text-center py-20 bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
-    <h1 class="text-4xl md:text-6xl font-bold mb-4">Unlock Financial Freedom</h1>
-    <p class="text-lg md:text-2xl mb-6">Download "Youth Ebook Rise" – The 1 Crore in 180 Days Blueprint</p>
-    <img src="ebook-cover.jpg" alt="Ebook Cover" class="mx-auto mb-6 shadow-lg rounded-lg w-64">
-    <button id="buyBtn" class="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold rounded-full shadow-lg">
-      Buy Now – ₹50
-    </button>
-    <p class="mt-4 text-sm">Instant download after payment</p>
-  </section>
+<body>
+  <header>
+    <h1>📘 Youth E-Book Rise</h1>
+    <p>1 Crore in 365 Days – Roadmap for Indian Youth</p>
+  </header>
 
-  <!-- Benefits Section -->
-  <section class="py-16 max-w-5xl mx-auto grid md:grid-cols-3 gap-8 text-center">
-    <div class="p-6 border rounded-xl shadow hover:shadow-lg transition">
-      <i class="fas fa-bolt text-purple-600 text-4xl mb-4"></i>
-      <h3 class="text-xl font-semibold mb-2">Fast Results</h3>
-      <p>Proven strategies to grow your income quickly and sustainably.</p>
+  <div class="container">
+    <div class="ebook-cover">
+      <img src="ebook-cover-3d.png" alt="Youth Ebook Rise Cover" />
     </div>
-    <div class="p-6 border rounded-xl shadow hover:shadow-lg transition">
-      <i class="fas fa-lock text-purple-600 text-4xl mb-4"></i>
-      <h3 class="text-xl font-semibold mb-2">Secure Payment</h3>
-      <p>Safe and secure checkout with Razorpay integration.</p>
-    </div>
-    <div class="p-6 border rounded-xl shadow hover:shadow-lg transition">
-      <i class="fas fa-envelope-open-text text-purple-600 text-4xl mb-4"></i>
-      <h3 class="text-xl font-semibold mb-2">Instant Delivery</h3>
-      <p>Get the ebook instantly delivered to your email after payment.</p>
-    </div>
-  </section>
+    
+    <p>
+      “Jab sapna bada ho, to planning aur direction bhi badi honi chahiye.”<br><br>
+      Ye eBook specially banayi gayi hai Indian youth ke liye jo zero se apna naam aur bank balance banana chahte hain.  
+    </p>
 
-  <!-- Testimonials -->
-  <section class="py-16 bg-gray-100 text-center">
-    <h2 class="text-3xl font-bold mb-8">What Readers Are Saying</h2>
-    <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8">
-      <blockquote class="p-6 bg-white rounded-lg shadow">
-        <p>“Life-changing strategies! I earned my first lakh in just 30 days.”</p>
-        <footer class="mt-4 font-semibold">– Anjali, Mumbai</footer>
-      </blockquote>
-      <blockquote class="p-6 bg-white rounded-lg shadow">
-        <p>“Clear, actionable, and easy to follow. Worth every rupee.”</p>
-        <footer class="mt-4 font-semibold">– Rajesh, Delhi</footer>
-      </blockquote>
-      <blockquote class="p-6 bg-white rounded-lg shadow">
-        <p>“Highly recommend this ebook for young entrepreneurs.”</p>
-        <footer class="mt-4 font-semibold">– Priya, Bangalore</footer>
-      </blockquote>
-    </div>
-  </section>
+    <div class="price">💰 Only ₹49</div>
+    
+    <a href="#" class="buy-btn">🔥 Buy Now with Razorpay</a>
 
-  <!-- Footer -->
-  <footer class="py-8 bg-gray-900 text-white text-center">
-    <p class="mb-4">&copy; 2025 Youth Ebook Rise. All Rights Reserved.</p>
-    <div class="space-x-4">
-      <a href="#" class="hover:underline">Refund Policy</a>
-      <a href="#" class="hover:underline">Privacy Policy</a>
-      <a href="#" class="hover:underline">Contact Us</a>
-    </div>
+    <section class="purchase-counter">
+      🎉 Join <span id="buyerCount">100</span> readers who have already unlocked this blueprint!
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+      <h2>💬 What Readers Say</h2>
+      <div class="testimonial">
+        <p>"This book changed my life! I started from zero and now I'm confidently earning online." – <strong>Rahul S.</strong></p>
+      </div>
+      <div class="testimonial">
+        <p>"Simple, practical and to the point. Highly recommend to every student." – <strong>Anjali M.</strong></p>
+      </div>
+      <div class="testimonial">
+        <p>"Best investment I've made this year. The monthly roadmap is a game changer." – <strong>Ravi K.</strong></p>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    &copy; 2025 Youth E-Book Rise | All Rights Reserved
   </footer>
 
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
-    document.getElementById('buyBtn').onclick = function(e){
-      var options = {
-        "key": "RAZORPAY_KEY_HERE",
-        "amount": "5000", // 50 INR in paise
-        "currency": "INR",
-        "name": "Youth Ebook Rise",
-        "description": "1 Crore in 180 Days Ebook",
-        "handler": function (response){
-          alert('Payment Successful! Ebook will be sent to your email.');
-        },
-        "prefill": {
-          "email": ""
-        }
-      };
-      var rzp1 = new Razorpay(options);
-      rzp1.open();
-      e.preventDefault();
-    }
+    let count = 100;
+    setInterval(() => {
+      count++;
+      document.getElementById('buyerCount').textContent = count;
+    }, 60000); // increments every 1 minute (simulate purchases)
   </script>
 </body>
 </html>
