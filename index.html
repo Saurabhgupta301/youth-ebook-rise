@@ -3,206 +3,142 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>YOUTH E-BOOK RISE</title>
+  <title>Youth E-Book Rise</title>
+  <link rel="stylesheet" href="style.css" />
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #fff0f5;
-      color: #333;
-      margin: 0;
-      padding: 0;
-      line-height: 1.6;
-    }
-    .sticky-header {
-      position: sticky;
-      top: 0;
-      width: 100%;
-      background-color: #ff69b4;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      z-index: 999;
-      transition: all 0.3s ease;
-    }
-    .sticky-header.shrink {
-      padding: 8px 20px;
-      background-color: #ff4fa0;
-    }
-    .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      max-width: 1200px;
-    }
-    .sticky-header.shrink .ebook-title {
-      font-size: 18px;
-    }
-    .ebook-title {
-      font-size: 22px;
-      font-weight: bold;
-      color: white;
-      transition: font-size 0.3s ease;
-    }
-    .header-buy-btn {
-      background-color: white;
-      color: #ff69b4;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 30px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-    }
-    .header-buy-btn:hover {
-      background-color: #ffe4ec;
-      transform: scale(1.05);
-    }
-    .hero {
-      text-align: center;
-      padding: 50px 20px;
-      background: linear-gradient(135deg, #ff69b4, #ff85c1);
-      color: white;
-    }
-    .hero h1 { font-size: 32px; }
-    .hero img {
-      width: 250px;
-      margin-top: 20px;
-      transform: rotateY(-15deg) rotateX(5deg);
-      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
-      border-radius: 5px;
-    }
-    .content {
-      max-width: 900px;
-      margin: 30px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-    .content h2 { color: #ff69b4; text-align: center; margin-bottom: 20px; }
-    .testimonials { background-color: #ffe4ec; padding: 40px 20px; margin-top: 40px; }
-    .testimonial {
-      max-width: 700px;
-      margin: 20px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-    .testimonial strong { color: #ff69b4; }
-    .buyer-count {
-      text-align: center;
-      margin: 30px 0;
-      font-size: 20px;
-      font-weight: bold;
-      color: #ff69b4;
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: #ff69b4;
-      color: white;
-      margin-top: 40px;
-    }
-  </style>
 </head>
 <body>
-  <header class="sticky-header">
-    <div class="header-container">
-      <span class="ebook-title">YOUTH E-BOOK RISE</span>
-      <button class="header-buy-btn" onclick="startPayment()">Buy Now</button>
-    </div>
+  <header class="header">
+    <h1>YOUTH E-BOOK RISE</h1>
+    <p class="tagline">1 Crore in 365 Days — Roadmap</p>
   </header>
-  <section class="hero">
-    <h1>1 Crore in 365 Days — Roadmap</h1>
-    <p>Specially for Indian youth who want to build name and bank balance from zero</p>
-    <img src="ebook-cover.jpg" alt="E-Book Cover" />
-  </section>
-  <div class="buyer-count">Already <span id="buyerCounter">100</span>+ copies sold!</div>
-  <div class="content">
-    <h2>About The E-Book</h2>
-    <p>“Jab sapna bada ho, to planning aur direction bhi badi honi chahiye.”<br><br>Isi thought se bani hai — 1 Crore in 365 Days — Roadmap, specially un Indian youth ke liye jo zero se apna naam aur bank balance dono banana chahte hain.</p>
-    <p>💭 Kabhi socha hai…<br>– Kaash koi step-by-step guide mil jaaye jo sab kuch clear bata de?<br>– Kaash koi bata de genuine tarike se online paisa kaise kamaate hain?<br>– Kaash koi roadmap ho jisse 1 crore tak pahucha jaaye?</p>
-    <p>To bhai, yeh YOUTH E-BOOK RISE tumhare liye hi likhi gayi hai.</p>
-    <h3>📘 Is eBook mein kya milega?</h3>
-    <ul>
-      <li>🧠 11 Proven Earning Models</li>
-      <li>📅 Har Mahine Ka Action Plan</li>
-      <li>📚 Easy Hinglish Language</li>
-      <li>📈 Zero to Low Cost Ideas</li>
-      <li>💼 Real Case Studies</li>
-    </ul>
-    <h3>🔥 Ye eBook kin ke liye hai?</h3>
-    <ul>
-      <li>✅ College students</li>
-      <li>✅ Ghar baithe business build karna chahte hain</li>
-      <li>✅ Roz ke sirf 1-2 ghante dekar paisa banana chahte hain</li>
-      <li>✅ Family aur society mein apni value prove karna chahte hain</li>
-    </ul>
-    <h3>📦 What You Get:</h3>
-    <ul>
-      <li>📩 Turant PDF Download</li>
-      <li>♾️ Lifetime Access</li>
-      <li>📱 Mobile Friendly Format</li>
-      <li>🧩 Real Examples + Templates + Ready Checklists</li>
-      <li>💬 Hinglish, simple & practical</li>
-    </ul>
-    <p><strong>⚠️ Socho — tumhara future ek burger se bhi cheap hai?</strong><br>Ek burger khatam ho jaayega, ye eBook tumhe 1 crore ka plan de jaayegi.<br><br>Same ₹49 — ek burger ya ek mind-opener?<br>Decision tumhara. Kal offer gayab ho sakta hai.<br><br>Aaj se shuru karo. Aaj hi badlo.</p>
-    <p><strong>Author:</strong> Gopi Gour</p>
-  </div>
-  <section class="testimonials">
-    <h2 style="text-align:center;color:#ff69b4;">What Readers Say</h2>
-    <div class="testimonial"><p>"Amazing book! Simple and practical steps for beginners."</p><strong>- Reader 1</strong></div>
-    <div class="testimonial"><p>"Helped me start earning online within 2 months!"</p><strong>- Reader 2</strong></div>
-  </section>
-  <footer>&copy; 2025 YOUTH E-BOOK RISE | All Rights Reserved</footer>
+
+  <main>
+    <section class="book-section">
+      <img src="ebook-cover-3d.jpg" alt="3D Book Cover" class="book-cover" />
+      <div class="book-details">
+        <h2>1 Crore in 365 Days — Roadmap</h2>
+        <p>
+          “Jab sapna bada ho, to planning aur direction bhi badi honi chahiye.”<br><br>
+          Isi thought se bani hai — <strong>1 Crore in 365 Days — Roadmap</strong>, specially un Indian youth ke liye jo zero se apna naam aur bank balance dono banana chahte hain.
+        </p>
+
+        <p>💭 <strong>Kabhi socha hai…</strong></p>
+        <ul>
+          <li>– Kaash koi step-by-step guide mil jaaye jo sab kuch clear bata de?</li>
+          <li>– Kaash koi bata de genuine tarike se online paisa kaise kamaate hain?</li>
+          <li>– Kaash koi roadmap ho jisse 1 crore tak pahucha jaaye?</li>
+        </ul>
+
+        <p>To bhai, yeh <strong>YOUTH E-BOOK RISE</strong> tumhare liye hi likhi gayi hai.</p>
+
+        <h3>📘 Is eBook mein kya milega?</h3>
+        <ul>
+          <li>🧠 <strong>11 Proven Earning Models:</strong><br>
+            Instagram | YouTube | Digital Courses | Affiliate Marketing | FB Page Growth | Reselling | Content Gameplan | Low Budget Offline Business | Personal Brand | WhatsApp Business | Automation Tools
+          </li>
+          <li>📅 <strong>Har Mahine Ka Action Plan:</strong><br>
+            Mahina dar mahina kya karna hai aur kaise karna hai — sab kuch likha hai. Bas copy-paste karo, result tumhara.
+          </li>
+          <li>📚 <strong>Easy Hinglish Language:</strong><br>
+            Bilkul waise hi likhi gayi hai jaise dost samjha raha ho — simple, clear aur practical.
+          </li>
+          <li>📈 <strong>Zero to Low Cost Ideas:</strong><br>
+            ₹0–₹5,000 tak wale business models — perfect for beginners without big investment.
+          </li>
+          <li>💼 <strong>Real Case Studies:</strong><br>
+            Sirf theory nahi — real logon ke examples aur success proofs bhi diye hain.
+          </li>
+        </ul>
+
+        <h3>🔥 Ye eBook kin ke liye hai?</h3>
+        <ul>
+          <li>✅ College students jo side income chahte hain</li>
+          <li>✅ Ghar baithe business build karna chahte hain</li>
+          <li>✅ Roz ke sirf 1-2 ghante dekar paisa banana chahte hain</li>
+          <li>✅ Family aur society mein apni value prove karna chahte hain</li>
+          <li>✅ Sari earning strategies ek jagah pe chahte hain</li>
+        </ul>
+
+        <p>⚡ <strong>Ready ho kya?</strong></p>
+        <p>💡 Sochne wale sirf sochte rah jaate hain. Action lene wale hi jeet te hain.</p>
+        <p>Yeh eBook un logon ke liye hai jo 1 saal dedicated focus deke apni life badalna chahte hain.</p>
+
+        <h3>📦 What You Get:</h3>
+        <ul>
+          <li>📩 Turant PDF Download</li>
+          <li>♾️ Lifetime Access</li>
+          <li>📱 Mobile Friendly Format</li>
+          <li>🧩 Real Examples + Templates + Ready Checklists</li>
+          <li>💬 Hinglish, simple & practical</li>
+        </ul>
+
+        <p>⚠️ Socho — tumhara future ek burger se bhi cheap hai?</p>
+        <p>Ek burger khatam ho jaayega, ye eBook tumhe 1 crore ka plan de jaayegi.</p>
+        <p><strong>Same ₹49 — ek burger ya ek mind-opener?<br>Decision tumhara. Kal offer gayab ho sakta hai.</strong></p>
+        <p>Aaj se shuru karo. Aaj hi badlo.</p>
+
+        <h3>👤 AUTHOR NAME – GOPI GOUR</h3>
+        <p class="highlight">Price: ₹49 only</p>
+        <button id="rzp-button">Buy Now</button>
+      </div>
+    </section>
+
+    <section class="stats">
+      <h3>🔥 Already <span id="buyers-count">100</span> Youths started their journey</h3>
+    </section>
+
+    <section class="testimonials">
+      <h2>What Readers Say</h2>
+      <div class="testimonial">
+        <p>"This book changed my mindset and gave me clear steps!"</p>
+        <span>- Testimonial 1</span>
+      </div>
+      <div class="testimonial">
+        <p>"Super practical! I’ve already started earning online."</p>
+        <span>- Testimonial 2</span>
+      </div>
+      <div class="testimonial">
+        <p>"Worth every rupee, best guide for Indian youth."</p>
+        <span>- Testimonial 3</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Youth E-Book Rise | Author: Gopi Gour</p>
+    <a href="refund.html">Cancellations & Refunds</a>
+  </footer>
 
   <script>
-    // Sticky header shrink
-    window.addEventListener("scroll", function () {
-      const header = document.querySelector(".sticky-header");
-      if (window.scrollY > 50) header.classList.add("shrink");
-      else header.classList.remove("shrink");
-    });
-
-    // Buyer count increment
-    let count = 100;
-    const buyerCounter = document.getElementById("buyerCounter");
-    setInterval(() => { count++; buyerCounter.textContent = count; }, 5000);
-
-    // Razorpay Payment
-    function startPayment() {
+    // Razorpay Button
+    document.getElementById('rzp-button').onclick = function (e) {
       var options = {
-        "key": "YOUR_RAZORPAY_KEY", // replace with your key
-        "amount": 4900, // in paise (49 INR)
-        "currency": "INR",
-        "name": "YOUTH E-BOOK RISE",
-        "description": "Purchase eBook",
-        "handler": function (response){
-          alert('Payment Successful! The eBook will be emailed to you.');
-          sendEmail(response.razorpay_payment_id);
-        },
-        "prefill": {
-          "email": "",
-          "contact": ""
-        },
-        "theme": {"color": "#ff69b4"}
+        key: "YOUR_RAZORPAY_KEY",
+        amount: 4900,
+        currency: "INR",
+        name: "Youth E-Book Rise",
+        description: "E-Book Purchase",
+        handler: function (response) {
+          fetch('/payment-success', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ payment_id: response.razorpay_payment_id })
+          }).then(() => alert("Payment Successful! Check your email for the eBook."));
+        }
       };
       var rzp1 = new Razorpay(options);
       rzp1.open();
-    }
+      e.preventDefault();
+    };
 
-    // Send Email (mock)
-    function sendEmail(paymentId) {
-      console.log('Email would be sent for payment:', paymentId);
-      // You would integrate with backend service using Node/PHP
-      // to send PDF to buyer via Gmail SMTP
-    }
+    // Buyers Counter (auto increment)
+    let count = 100;
+    setInterval(() => {
+      count++;
+      document.getElementById('buyers-count').innerText = count;
+    }, 30000);
   </script>
 </body>
 </html>
+
