@@ -1,48 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Youth Ebook Rise</title>
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  <style>
-    body { font-family: sans-serif; padding: 2rem; max-width: 500px; margin: auto; }
-    button { padding: 10px 20px; background: blue; color: white; border: none; cursor: pointer; }
-    input { padding: 8px; width: 100%; margin-bottom: 1rem; }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-  <h1>Youth Ebook Rise</h1>
-  <p style="font-size:1.1rem">
-    "Youth Ebook Rise is a power‑packed digital guide to help young minds unlock their potential, build strong habits, and start their journey toward personal growth. Learn practical tips, success mindsets, and self‑discipline from Day 1!"
-  </p>
-  <h2>₹49 Only</h2>
-  <input type="email" id="email" placeholder="Your email" required>
-  <button onclick="payNow()">Buy Now</button>
+<body class="bg-white text-gray-900">
+  <!-- Hero Section -->
+  <section class="text-center py-20 bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
+    <h1 class="text-4xl md:text-6xl font-bold mb-4">Unlock Financial Freedom</h1>
+    <p class="text-lg md:text-2xl mb-6">Download "Youth Ebook Rise" – The 1 Crore in 180 Days Blueprint</p>
+    <img src="ebook-cover.jpg" alt="Ebook Cover" class="mx-auto mb-6 shadow-lg rounded-lg w-64">
+    <button id="buyBtn" class="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold rounded-full shadow-lg">
+      Buy Now – ₹50
+    </button>
+    <p class="mt-4 text-sm">Instant download after payment</p>
+  </section>
 
+  <!-- Benefits Section -->
+  <section class="py-16 max-w-5xl mx-auto grid md:grid-cols-3 gap-8 text-center">
+    <div class="p-6 border rounded-xl shadow hover:shadow-lg transition">
+      <i class="fas fa-bolt text-purple-600 text-4xl mb-4"></i>
+      <h3 class="text-xl font-semibold mb-2">Fast Results</h3>
+      <p>Proven strategies to grow your income quickly and sustainably.</p>
+    </div>
+    <div class="p-6 border rounded-xl shadow hover:shadow-lg transition">
+      <i class="fas fa-lock text-purple-600 text-4xl mb-4"></i>
+      <h3 class="text-xl font-semibold mb-2">Secure Payment</h3>
+      <p>Safe and secure checkout with Razorpay integration.</p>
+    </div>
+    <div class="p-6 border rounded-xl shadow hover:shadow-lg transition">
+      <i class="fas fa-envelope-open-text text-purple-600 text-4xl mb-4"></i>
+      <h3 class="text-xl font-semibold mb-2">Instant Delivery</h3>
+      <p>Get the ebook instantly delivered to your email after payment.</p>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-16 bg-gray-100 text-center">
+    <h2 class="text-3xl font-bold mb-8">What Readers Are Saying</h2>
+    <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8">
+      <blockquote class="p-6 bg-white rounded-lg shadow">
+        <p>“Life-changing strategies! I earned my first lakh in just 30 days.”</p>
+        <footer class="mt-4 font-semibold">– Anjali, Mumbai</footer>
+      </blockquote>
+      <blockquote class="p-6 bg-white rounded-lg shadow">
+        <p>“Clear, actionable, and easy to follow. Worth every rupee.”</p>
+        <footer class="mt-4 font-semibold">– Rajesh, Delhi</footer>
+      </blockquote>
+      <blockquote class="p-6 bg-white rounded-lg shadow">
+        <p>“Highly recommend this ebook for young entrepreneurs.”</p>
+        <footer class="mt-4 font-semibold">– Priya, Bangalore</footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-8 bg-gray-900 text-white text-center">
+    <p class="mb-4">&copy; 2025 Youth Ebook Rise. All Rights Reserved.</p>
+    <div class="space-x-4">
+      <a href="#" class="hover:underline">Refund Policy</a>
+      <a href="#" class="hover:underline">Privacy Policy</a>
+      <a href="#" class="hover:underline">Contact Us</a>
+    </div>
+  </footer>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
-    async function payNow() {
-      const email = document.getElementById('email').value;
-      if (!email) return alert('Please enter email');
-      const res = await fetch('/create-order', { method: 'POST' });
-      const order = await res.json();
-      const rzp = new Razorpay({
-        key: 'YOUR_RAZORPAY_KEY_ID',
-        amount: order.amount,
-        currency: 'INR',
-        name: 'Youth Ebook Rise',
-        description: 'Digital Guide for Youth',
-        order_id: order.id,
-        handler: async (resp) => {
-          await fetch('/verify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ...resp, email })
-          });
-          alert('Payment successful! Check your email for the eBook.');
+    document.getElementById('buyBtn').onclick = function(e){
+      var options = {
+        "key": "RAZORPAY_KEY_HERE",
+        "amount": "5000", // 50 INR in paise
+        "currency": "INR",
+        "name": "Youth Ebook Rise",
+        "description": "1 Crore in 180 Days Ebook",
+        "handler": function (response){
+          alert('Payment Successful! Ebook will be sent to your email.');
         },
-        prefill: { email }
-      });
-      rzp.open();
+        "prefill": {
+          "email": ""
+        }
+      };
+      var rzp1 = new Razorpay(options);
+      rzp1.open();
+      e.preventDefault();
     }
   </script>
 </body>
