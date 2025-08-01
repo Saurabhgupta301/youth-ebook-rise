@@ -50,6 +50,17 @@
       margin: 20px 0;
       color: #e91e63;
     }
+
+    .email-input {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      margin: 15px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
     .buy-btn {
       display: block;
       width: 100%;
@@ -61,7 +72,8 @@
       font-weight: bold;
       border-radius: 8px;
       font-size: 1.2rem;
-      margin-top: 20px;
+      margin-top: 10px;
+      cursor: pointer;
     }
     .buy-btn:hover { background: #e91e63; }
 
@@ -181,7 +193,8 @@
     <p><strong>Author:</strong> Gopi Gour</p>
 
     <div class="price">💰 Only ₹49</div>
-    <a href="#" class="buy-btn">🔥 Buy Now with Razorpay</a>
+    <input type="email" id="emailInputTop" class="email-input" placeholder="Enter your email to receive eBook" required>
+    <button onclick="payNow('emailInputTop')" class="buy-btn">🔥 Buy Now with Razorpay</button>
     <p style="text-align:center; font-size:0.9rem; margin-top:10px; color:#888;">
       📩 eBook will be instantly emailed to you after successful purchase
     </p>
@@ -202,6 +215,10 @@
         <p>"Best investment I've made this year. The monthly roadmap is a game changer." – <strong>Ravi K.</strong></p>
       </div>
     </section>
+
+    <!-- Second Buy Button -->
+    <input type="email" id="emailInputBottom" class="email-input" placeholder="Enter your email to receive eBook" required>
+    <button onclick="payNow('emailInputBottom')" class="buy-btn">🔥 Buy Now</button>
   </div>
 
   <footer>
@@ -216,34 +233,34 @@
     }, 60000);
   </script>
 
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script>
-function payNow() {
-    var options = {
-        "key": "your_test_key_id", // Test Key
-        "amount": 4900, // Amount in paise (₹49)
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    function payNow(inputId) {
+      const email = document.getElementById(inputId).value;
+      if (!email) {
+        alert("Please enter your email to receive the eBook.");
+        return;
+      }
+
+      var options = {
+        "key": "your_test_key_id", // Replace with your Razorpay Key ID
+        "amount": 4900,
         "currency": "INR",
         "name": "Youth E-Book Rise",
         "description": "1 Crore in 365 Days",
         "image": "ebook-cover-3d.png",
         "handler": function (response){
-            alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
-            // Here you can also send response to server for email delivery
+          // After payment success
+          window.location.href = 'success.html';
         },
         "prefill": {
-            "name": "",
-            "email": ""
+          "email": email
         },
-        "theme": {
-            "color": "#ff1493"
-        }
-    };
-    var rzp = new Razorpay(options);
-    rzp.open();
-}
-</script>
-
-<button onclick="payNow()" class="buy-btn">🔥 Buy Now</button>
-
+        "theme": { "color": "#ff1493" }
+      };
+      var rzp = new Razorpay(options);
+      rzp.open();
+    }
+  </script>
 </body>
 </html>
