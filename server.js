@@ -15,7 +15,11 @@ const razorpay = new Razorpay({
 });
 
 app.post('/create-order', async (req, res) => {
-  const order = await razorpay.orders.create({ amount: 5000, currency: 'INR', receipt: 'rcpt_' + Date.now() });
+  const order = await razorpay.orders.create({
+    amount: 5000,
+    currency: 'INR',
+    receipt: 'rcpt_' + Date.now()
+  });
   res.json(order);
 });
 
@@ -24,6 +28,7 @@ app.post('/verify', async (req, res) => {
   const sig = crypto.createHmac('sha256', process.env.RAZORPAY_SECRET)
     .update(razorpay_order_id + "|" + razorpay_payment_id)
     .digest('hex');
+  
   if (sig !== razorpay_signature) return res.status(400).send('Invalid signature');
 
   const transporter = nodemailer.createTransport({
@@ -39,7 +44,8 @@ app.post('/verify', async (req, res) => {
     attachments: [{ filename: 'YouthEbookRise.pdf', path: './ebook.pdf' }]
   });
 
-  res.json({ status: 'sent' });
+  // Redirect to thank-you page after sending email
+  res.redirect('/success.html');
 });
 
 const PORT = process.env.PORT || 3000;
