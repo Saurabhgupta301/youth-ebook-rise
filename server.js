@@ -43,6 +43,7 @@ app.post('/verify', async (req, res) => {
 });
 
 // ✅ Webhook for automatic email sending
+// ✅ Webhook for automatic email sending
 app.post('/webhook', express.json(), (req, res) => {
     const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
     const signature = req.headers['x-razorpay-signature'];
@@ -60,35 +61,16 @@ app.post('/webhook', express.json(), (req, res) => {
         console.log("✅ Webhook signature verified");
 
         switch (req.body.event) {
-    case 'payment.captured': {
-        const email = req.body.payload.payment.entity.email;
-        if (email) {
-            console.log(`💰 Payment captured. Sending ebook to: ${email}`);
-            sendEmailWithAttachment(email);
-        } else {
-            console.warn("⚠️ No email found in payment payload");
-        }
-        break;
-    }
-
-    case 'order.notification.delivered':
-        console.log("📩 Notification delivered successfully");
-        break;
-
-    case 'order.notification.failed': {
-        console.warn("⚠️ Notification delivery failed");
-        sendEmailWithAttachment(
-            'admin@example.com',
-            'Webhook Delivery Failed',
-            'A Razorpay notification failed to deliver. Check logs.'
-        );
-        break;
-    }
-
-    default:
-        console.log("ℹ️ Unhandled event:", req.body.event);
-}
-
+            case 'payment.captured': {
+                const email = req.body.payload.payment.entity.email;
+                if (email) {
+                    console.log(`💰 Payment captured. Sending ebook to: ${email}`);
+                    sendEmailWithAttachment(email);
+                } else {
+                    console.warn("⚠️ No email found in payment payload");
+                }
+                break;
+            }
 
             case 'order.notification.delivered':
                 console.log("📩 Notification delivered successfully");
