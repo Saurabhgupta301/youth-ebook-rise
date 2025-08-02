@@ -101,7 +101,7 @@ app.post('/webhook', express.json(), (req, res) => {
 // ✅ Test email route
 app.get('/test-email', async (req, res) => {
     try {
-        const testEmail = "yourtest@example.com"; // Change this to your email
+        const testEmail = "100rabhgupta301@gmail.com"; // Change this to your email
         await sendEmailWithAttachment(testEmail);
         console.log(`✅ Test email sent to: ${testEmail}`);
         res.send(`✅ Test email sent to ${testEmail}`);
