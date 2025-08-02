@@ -43,31 +43,51 @@ app.post('/verify', async (req, res) => {
 });
 
 // ✅ Webhook for automatic email sending
-app.post('/webhook', bodyParser.json(), async (req, res) => {
-  const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
+app.post('/webhook', (req, res) => {
+    const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
+    const signature = req.headers['x-razorpay-signature'];
 
-  const shasum = crypto.createHmac('sha256', secret);
-  shasum.update(JSON.stringify(req.body));
-  const digest = shasum.digest('hex');
+    // Log everything for debugging
+    console.log("🔔 Webhook Event:", req.body.event);
+    console.log("📦 Payload:", JSON.stringify(req.body, null, 2));
 
-  if (digest !== req.headers['x-razorpay-signature']) {
-    return res.status(400).send('Invalid signature');
-  }
+    // Verify signature
+    const shasum = crypto.createHmac('sha256', secret)
+        .update(JSON.stringify(req.body))
+        .digest('hex');
 
-  // Handle successful payment
-  if (req.body.event === 'payment.captured') {
-    const paymentData = req.body.payload.payment.entity;
-    const customerEmail = paymentData.email;
+    if (shasum === signature) {
+        console.log("✅ Webhook signature verified");
 
-    if (customerEmail) {
-      await sendEbookEmail(customerEmail);
-      console.log(`✅ Email sent successfully to ${customerEmail}`);
+        switch (req.body.event) {
+            case 'order.paid':
+                const email = req.body.payload.payment.entity.email;
+                console.log(`💰 Order paid. Sending ebook to: ${email}`);
+                sendEmailWithAttachment(email);
+                break;
+
+            case 'order.notification.delivered':
+                console.log("📩 Notification delivered successfully");
+                break;
+
+            case 'order.notification.failed':
+                console.warn("⚠️ Notification delivery failed");
+                sendEmailWithAttachment(
+                    'admin@example.com',
+                    'Webhook Delivery Failed',
+                    'A Razorpay notification failed to deliver. Check logs.'
+                );
+                break;
+
+            default:
+                console.log("ℹ️ Unhandled event:", req.body.event);
+        }
+
+        res.status(200).json({ status: 'ok' });
     } else {
-      console.warn('⚠️ No email found in payment data.');
+        console.warn("❌ Invalid webhook signature");
+        res.status(400).send('Invalid signature');
     }
-  }
-
-  res.status(200).json({ status: 'success' });
 });
 
 // ✅ Reusable function to send eBook via email
