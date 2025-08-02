@@ -98,6 +98,18 @@ app.post('/webhook', express.json(), (req, res) => {
     }
 });
 
+// ✅ Test email route
+app.get('/test-email', async (req, res) => {
+    try {
+        const testEmail = "yourtest@example.com"; // Change this to your email
+        await sendEmailWithAttachment(testEmail);
+        console.log(`✅ Test email sent to: ${testEmail}`);
+        res.send(`✅ Test email sent to ${testEmail}`);
+    } catch (err) {
+        console.error("❌ Test email sending failed:", err);
+        res.status(500).send("❌ Test email sending failed. Check logs for details.");
+    }
+});
 
 // ✅ Reusable function to send eBook via email
 async function sendEbookEmail(toEmail) {
