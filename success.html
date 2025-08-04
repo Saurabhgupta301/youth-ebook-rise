@@ -54,6 +54,10 @@
     .btn:hover {
       background: #e91e63;
     }
+    .btn.disabled {
+      pointer-events: none;
+      opacity: 0.6;
+    }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -67,19 +71,23 @@
     <p>Thank you for purchasing <strong>Youth E-Book Rise</strong>!<br><br>
        Your payment has been confirmed. Click below to securely download your eBook.</p>
     
-    <!-- Dynamically injected PAYMENT_ID -->
-    <a id="downloadBtn" class="btn">📥 Download Your eBook</a><br>
+    <!-- Disabled by default -->
+    <a id="downloadBtn" class="btn disabled" target="_blank">
+      📥 Download Your eBook
+    </a><br>
     <a href="/" class="btn">🏠 Back to Home</a>
   </div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
     const paymentId = params.get('payment_id');
+    const btn = document.getElementById('downloadBtn');
+    
     if (paymentId) {
-      document.getElementById('downloadBtn').href = `/download?payment_id=${paymentId}`;
+      btn.href = `/download?payment_id=${paymentId}`;
+      btn.classList.remove('disabled');
     } else {
-      document.getElementById('downloadBtn').textContent = '⚠️ Payment ID missing';
-      document.getElementById('downloadBtn').style.pointerEvents = 'none';
+      btn.textContent = '⚠️ Payment ID missing';
     }
   </script>
 </body>
