@@ -2,6 +2,7 @@ const express = require('express');
 const Razorpay = require('razorpay');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -41,23 +42,30 @@ app.post('/verify', async (req, res) => {
   res.redirect(`/success.html?payment_id=${razorpay_payment_id}`);
 });
 
-// ✅ Secure download route
-app.get('/download', (req, res) => {
-  const paymentId = req.query.payment_id;
+// ✅ Secure download route (with payment verification)
+app.get('/download', async (req, res) => {
+  try {
+    const paymentId = req.query.payment_id;
+    if (!paymentId) return res.status(400).send('Missing payment ID');
 
-  // Basic check: make sure paymentId exists
-  if (!paymentId) return res.status(400).send('Missing payment ID');
+    // Fetch payment details from Razorpay API
+    const payment = await razorpay.payments.fetch(paymentId);
 
-  // TODO: Optionally verify payment status via Razorpay API before download
-
-  const filePath = __dirname + '/ebook.pdf';
-  res.download(filePath, 'Youth-Ebook-Rise.pdf');
+    if (payment.status === 'captured') {
+      const filePath = path.join(__dirname, 'ebook.pdf');
+      res.download(filePath, 'Youth-Ebook-Rise.pdf');
+    } else {
+      res.status(403).send('Payment not verified yet. Please contact support.');
+    }
+  } catch (error) {
+    console.error('❌ Download verification error:', error);
+    res.status(500).send('Error verifying payment');
+  }
 });
 
-
-// ✅ Webhook endpoint (NEW)
+// ✅ Webhook endpoint
 app.post('/razorpay/webhook', (req, res) => {
-  const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET; // set this in .env
+  const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
   const signature = req.headers['x-razorpay-signature'];
 
   const expectedSignature = crypto.createHmac('sha256', webhookSecret)
@@ -67,10 +75,11 @@ app.post('/razorpay/webhook', (req, res) => {
   if (signature === expectedSignature) {
     console.log('✅ Webhook verified:', req.body);
 
-    // Handle different event types
     if (req.body.event === 'payment.captured') {
-      console.log('💰 Payment captured:', req.body.payload.payment.entity.id);
-      // 👉 TODO: Send eBook download email or grant access
+      const paymentId = req.body.payload.payment.entity.id;
+      console.log('💰 Payment captured:', paymentId);
+
+      // 👉 TODO: send email with download link
     }
 
     res.status(200).json({ status: 'ok' });
