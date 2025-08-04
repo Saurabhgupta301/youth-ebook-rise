@@ -2,8 +2,8 @@ const express = require('express');
 const Razorpay = require('razorpay');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
-const nodemailer = require('nodemailer');
 const path = require('path');
+const { Resend } = require('resend');
 require('dotenv').config();
 
 const app = express();
@@ -14,6 +14,9 @@ const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_SECRET
 });
+
+// ✅ Initialize Resend
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // ✅ Create Razorpay order
 app.post('/create-order', async (req, res) => {
@@ -49,7 +52,6 @@ app.post('/webhook', express.json(), (req, res) => {
   const signature = req.headers['x-razorpay-signature'];
 
   console.log("🔔 Webhook Event:", req.body.event);
-  console.log("📦 Payload:", JSON.stringify(req.body, null, 2));
 
   const shasum = crypto.createHmac('sha256', secret)
     .update(JSON.stringify(req.body))
@@ -71,18 +73,6 @@ app.post('/webhook', express.json(), (req, res) => {
         }
         break;
       }
-
-      case 'order.notification.delivered':
-        console.log("📩 Notification delivered successfully");
-        break;
-
-      case 'order.notification.failed': {
-        console.warn("⚠️ Notification delivery failed");
-        sendEbookEmail('admin@example.com')
-          .catch(err => console.error("❌ Admin alert email failed:", err));
-        break;
-      }
-
       default:
         console.log("ℹ️ Unhandled event:", req.body.event);
     }
@@ -107,34 +97,23 @@ app.get('/test-email', async (req, res) => {
   }
 });
 
-// ✅ Reusable function to send eBook via email
+// ✅ Resend-based email sender
 async function sendEbookEmail(toEmail) {
   try {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: { 
-        user: process.env.EMAIL_USER, 
-        pass: process.env.EMAIL_PASS 
-      }
-    });
-
-    const info = await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+    const data = await resend.emails.send({
+      from: 'Youth E-Book <onboarding@resend.dev>', // Must be verified in Resend
       to: toEmail,
       subject: 'Your eBook: Youth Ebook Rise',
-      text: 'Thank you for your purchase! Please find your eBook attached.',
-      attachments: [
-        {
-          filename: 'YouthEbookRise.pdf',
-          path: path.join(__dirname, 'ebook.pdf'),
-          contentType: 'application/pdf'
-        }
-      ]
+      html: `
+        <p>Thank you for your purchase 🎉</p>
+        <p>📥 <a href="https://yourwebsite.com/ebook.pdf">Download your eBook here</a></p>
+        <p>Happy Learning,<br/>Team Youth E-Book Rise</p>
+      `,
     });
 
-    console.log("✅ Email sent:", info.response);
+    console.log("✅ Email sent via Resend:", data);
   } catch (error) {
-    console.error("❌ Email sending error:", error);
+    console.error("❌ Resend email sending error:", error);
     throw error;
   }
 }
