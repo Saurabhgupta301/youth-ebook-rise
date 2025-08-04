@@ -40,5 +40,30 @@ app.post('/verify', async (req, res) => {
   res.redirect('/success.html');
 });
 
+// ✅ Webhook endpoint (NEW)
+app.post('/razorpay/webhook', (req, res) => {
+  const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET; // set this in .env
+  const signature = req.headers['x-razorpay-signature'];
+
+  const expectedSignature = crypto.createHmac('sha256', webhookSecret)
+    .update(JSON.stringify(req.body))
+    .digest('hex');
+
+  if (signature === expectedSignature) {
+    console.log('✅ Webhook verified:', req.body);
+
+    // Handle different event types
+    if (req.body.event === 'payment.captured') {
+      console.log('💰 Payment captured:', req.body.payload.payment.entity.id);
+      // 👉 TODO: Send eBook download email or grant access
+    }
+
+    res.status(200).json({ status: 'ok' });
+  } else {
+    console.warn('❌ Webhook signature mismatch');
+    res.status(400).json({ status: 'invalid signature' });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
