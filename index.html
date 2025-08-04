@@ -24,64 +24,58 @@
 
     .container {
       width: 90%;
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 40px auto;
       background: white;
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    .top-section {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
+      gap: 30px;
     }
 
     .ebook-cover {
-      flex: 1 1 45%;
+      flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
     }
     .ebook-cover img {
-      width: 100%;
-      max-width: 300px;
+      width: 300px;
+      max-width: 100%;
       transform: perspective(600px) rotateY(-15deg);
       box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
       border-radius: 10px;
     }
 
-    .purchase-box {
-      flex: 1 1 45%;
-      background: #ffe4e1;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    .right-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    .purchase-box h3 {
-      margin-top: 0;
-      color: #ff1493;
+    .price {
       text-align: center;
+      font-size: 1.5rem;
+      margin: 20px 0;
+      color: #e91e63;
     }
 
-    .email-input, .phone-input {
+    .email-input {
       display: block;
       width: 100%;
       padding: 12px;
       font-size: 1rem;
-      margin: 10px 0;
+      margin: 15px 0;
       border: 1px solid #ccc;
       border-radius: 8px;
     }
 
-    .next-btn {
+    .buy-btn {
       display: block;
       width: 100%;
-      background: #ff4d6d;
+      background: #ff1493;
       color: white;
       padding: 15px;
       text-align: center;
@@ -91,17 +85,8 @@
       font-size: 1.2rem;
       margin-top: 10px;
       cursor: pointer;
-      border: none;
     }
-    .next-btn:hover { background: #e91e63; }
-
-    .price-display {
-      text-align: center;
-      font-size: 1.2rem;
-      margin-top: 10px;
-      color: #e91e63;
-    }
-    .price-display del { color: gray; font-size: 1rem; }
+    .buy-btn:hover { background: #e91e63; }
 
     .purchase-counter {
       text-align: center;
@@ -113,7 +98,9 @@
     }
 
     .testimonials {
-      margin-top: 40px;
+      width: 90%;
+      max-width: 900px;
+      margin: 40px auto;
     }
     .testimonial {
       background: #fce4ec;
@@ -142,9 +129,14 @@
       margin-top: 30px;
     }
 
-    @media (max-width: 768px) {
-      .top-section { flex-direction: column; align-items: center; }
-      .ebook-cover img { transform: none; }
+    .content-text {
+      width: 90%;
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
   </style>
 </head>
@@ -155,29 +147,30 @@
   </header>
 
   <div class="container">
-    <!-- Top Section: Book + Purchase Box -->
-    <div class="top-section">
-      <div class="ebook-cover">
-        <img src="ebook-cover-3d.jpg" alt="Youth Ebook Rise Cover" />
-      </div>
-      <div class="purchase-box">
-        <h3>Get Instant Access</h3>
-        <input type="email" id="topEmail" class="email-input" placeholder="Email Address" required>
-        <input type="tel" id="topPhone" class="phone-input" placeholder="Phone Number" required>
-        <div class="price-display">₹49 <del>₹1,999</del></div>
-        <button class="next-btn" onclick="payNowTop()">Next →</button>
-        <p style="text-align:center; font-size:0.9rem; margin-top:10px; color:#888;">
-          📩 Access to this purchase will be sent to your email
-        </p>
-      </div>
+    <div class="ebook-cover">
+      <img src="ebook-cover-3d.jpg" alt="Youth Ebook Rise Cover" />
     </div>
 
+    <div class="right-section">
+      <div class="price">💰 Only ₹49</div>
+      <input type="email" id="emailInputTop" class="email-input" placeholder="Enter your email to receive eBook" required>
+      <button onclick="payNow('emailInputTop')" class="buy-btn">🔥 Buy Now with Razorpay</button>
+      <p style="text-align:center; font-size:0.9rem; margin-top:10px; color:#888;">
+        📩 eBook will be instantly emailed to you after successful purchase
+      </p>
+
+      <section class="purchase-counter">
+        🎉 Join <span id="buyerCount">100</span> readers who have already unlocked this blueprint!
+      </section>
+    </div>
+  </div>
+
+  <div class="content-text">
     <h2 class="section-title">About the Book</h2>
     <p>
       “Jab sapna bada ho, to planning aur direction bhi badi honi chahiye.”<br><br>
       Isi thought se bani hai — 1 Crore in 365 Days — Roadmap, specially un Indian youth ke liye jo zero se apna naam aur bank balance dono banana chahte hain.
     </p>
-
     <p>
       💭 Kabhi socha hai…<br>
       – Kaash koi step-by-step guide mil jaaye jo sab kuch clear bata de?<br>
@@ -187,82 +180,51 @@
     </p>
 
     <h2 class="section-title">📘 Is eBook mein kya milega?</h2>
-    <p>
-      🧠 <strong>11 Proven Earning Models:</strong><br>
-      Instagram | YouTube | Digital Courses | Affiliate Marketing | FB Page Growth | Reselling | Content Gameplan | Low Budget Offline Business | Personal Brand | WhatsApp Business | Automation Tools
-    </p>
-    <p>
-      📅 <strong>Har Mahine Ka Action Plan:</strong><br>
-      Mahina dar mahina kya karna hai aur kaise karna hai — sab kuch likha hai. Bas copy-paste karo, result tumhara.
-    </p>
-    <p>
-      📚 <strong>Easy Hinglish Language:</strong><br>
-      Bilkul waise hi likhi gayi hai jaise dost samjha raha ho — simple, clear aur practical.
-    </p>
-    <p>
-      📈 <strong>Zero to Low Cost Ideas:</strong><br>
-      ₹0–₹5,000 tak wale business models — perfect for beginners without big investment.
-    </p>
-    <p>
-      💼 <strong>Real Case Studies:</strong><br>
-      Sirf theory nahi — real logon ke examples aur success proofs bhi diye hain.
-    </p>
+    <p>🧠 <strong>11 Proven Earning Models:</strong> Instagram | YouTube | Digital Courses | Affiliate Marketing | FB Page Growth | Reselling | Content Gameplan | Low Budget Offline Business | Personal Brand | WhatsApp Business | Automation Tools</p>
+    <p>📅 <strong>Har Mahine Ka Action Plan:</strong> Mahina dar mahina kya karna hai aur kaise karna hai — sab kuch likha hai. Bas copy-paste karo, result tumhara.</p>
+    <p>📚 <strong>Easy Hinglish Language:</strong> Bilkul waise hi likhi gayi hai jaise dost samjha raha ho — simple, clear aur practical.</p>
+    <p>📈 <strong>Zero to Low Cost Ideas:</strong> ₹0–₹5,000 tak wale business models — perfect for beginners without big investment.</p>
+    <p>💼 <strong>Real Case Studies:</strong> Sirf theory nahi — real logon ke examples aur success proofs bhi diye hain.</p>
 
     <h2 class="section-title">🔥 Ye eBook kin ke liye hai?</h2>
-    <p>
-      ✅ College students jo side income chahte hain<br>
-      ✅ Ghar baithe business build karna chahte hain<br>
-      ✅ Roz ke sirf 1-2 ghante dekar paisa banana chahte hain<br>
-      ✅ Family aur society mein apni value prove karna chahte hain<br>
-      ✅ Sari earning strategies ek jagah pe chahte hain
-    </p>
+    <p>✅ College students jo side income chahte hain<br>
+       ✅ Ghar baithe business build karna chahte hain<br>
+       ✅ Roz ke sirf 1-2 ghante dekar paisa banana chahte hain<br>
+       ✅ Family aur society mein apni value prove karna chahte hain<br>
+       ✅ Sari earning strategies ek jagah pe chahte hain</p>
 
     <h2 class="section-title">⚡ Ready ho kya?</h2>
-    <p>
-      💡 Sochne wale sirf sochte rah jaate hain. Action lene wale hi jeet te hain.<br><br>
-      Yeh eBook un logon ke liye hai jo 1 saal dedicated focus deke apni life badalna chahte hain.
-    </p>
+    <p>💡 Sochne wale sirf sochte rah jaate hain. Action lene wale hi jeet te hain.<br><br>
+       Yeh eBook un logon ke liye hai jo 1 saal dedicated focus deke apni life badalna chahte hain.</p>
 
     <h2 class="section-title">📦 What You Get:</h2>
-    <p>
-      📩 Turant PDF Download<br>
-      ♾️ Lifetime Access<br>
-      📱 Mobile Friendly Format<br>
-      🧩 Real Examples + Templates + Ready Checklists<br>
-      💬 Hinglish, simple & practical
-    </p>
+    <p>📩 Turant PDF Download<br>
+       ♾️ Lifetime Access<br>
+       📱 Mobile Friendly Format<br>
+       🧩 Real Examples + Templates + Ready Checklists<br>
+       💬 Hinglish, simple & practical</p>
 
-    <p>
-      ⚠️ Socho — tumhara future ek burger se bhi cheap hai?<br><br>
-      Ek burger khatam ho jaayega, ye eBook tumhe 1 crore ka plan de jaayegi.<br><br>
-      Same ₹49 — ek burger ya ek mind-opener?<br>
-      Decision tumhara. Kal offer gayab ho sakta hai.<br><br>
-      Aaj se shuru karo. Aaj hi badlo.
-    </p>
+    <p>⚠️ Socho — tumhara future ek burger se bhi cheap hai?<br><br>
+       Ek burger khatam ho jaayega, ye eBook tumhe 1 crore ka plan de jaayegi.<br><br>
+       Same ₹49 — ek burger ya ek mind-opener?<br>
+       Decision tumhara. Kal offer gayab ho sakta hai.<br><br>
+       Aaj se shuru karo. Aaj hi badlo.</p>
 
     <p><strong>Author:</strong> Gopi Gour</p>
-
-    <section class="purchase-counter">
-      🎉 Join <span id="buyerCount">100</span> readers who have already unlocked this blueprint!
-    </section>
-
-    <section class="testimonials">
-      <h2>💬 What Readers Say</h2>
-      <div class="testimonial">
-        <p>"This book changed my life! I started from zero and now I'm confidently earning online." – <strong>Rahul S.</strong></p>
-      </div>
-      <div class="testimonial">
-        <p>"Simple, practical and to the point. Highly recommend to every student." – <strong>Anjali M.</strong></p>
-      </div>
-      <div class="testimonial">
-        <p>"Best investment I've made this year. The monthly roadmap is a game changer." – <strong>Ravi K.</strong></p>
-      </div>
-    </section>
-
-    <!-- Bottom Buy Button -->
-    <input type="email" id="emailInputBottom" class="email-input" placeholder="Enter your email to receive eBook" required>
-    <button onclick="payNow('emailInputBottom')" class="next-btn">🔥 Buy Now</button>
   </div>
+
+  <section class="testimonials">
+    <h2>💬 What Readers Say</h2>
+    <div class="testimonial">
+      <p>"This book changed my life! I started from zero and now I'm confidently earning online." – <strong>Rahul S.</strong></p>
+    </div>
+    <div class="testimonial">
+      <p>"Simple, practical and to the point. Highly recommend to every student." – <strong>Anjali M.</strong></p>
+    </div>
+    <div class="testimonial">
+      <p>"Best investment I've made this year. The monthly roadmap is a game changer." – <strong>Ravi K.</strong></p>
+    </div>
+  </section>
 
   <footer>
     <p>
@@ -284,31 +246,6 @@
 
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
-    function payNowTop() {
-      const email = document.getElementById('topEmail').value;
-      const phone = document.getElementById('topPhone').value;
-      if (!email || !phone) {
-        alert("Please enter both email and phone number.");
-        return;
-      }
-
-      var options = {
-        "key": "rzp_test_V8siLEkqwO44ca",
-        "amount": 4900,
-        "currency": "INR",
-        "name": "Youth E-Book Rise",
-        "description": "1 Crore in 365 Days",
-        "image": "ebook-cover-3d.png",
-        "handler": function (response){
-          window.location.href = 'success.html';
-        },
-        "prefill": { "email": email, "contact": phone },
-        "theme": { "color": "#ff1493" }
-      };
-      var rzp = new Razorpay(options);
-      rzp.open();
-    }
-
     function payNow(inputId) {
       const email = document.getElementById(inputId).value;
       if (!email) {
@@ -324,7 +261,7 @@
         "description": "1 Crore in 365 Days",
         "image": "ebook-cover-3d.png",
         "handler": function (response){
-          window.location.href = 'success.html';
+          window.location.href = 'success.html?email=' + encodeURIComponent(email);
         },
         "prefill": { "email": email },
         "theme": { "color": "#ff1493" }
