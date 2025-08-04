@@ -115,6 +115,40 @@
       color: #ff1493;
       margin-top: 30px;
     }
+
+    /* New purchase section */
+    .purchase-section {
+      width: 100%;
+      max-width: 400px;
+      margin: 40px auto;
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .purchase-section h3 {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+    .purchase-section .total {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .purchase-section button {
+      background: #ff4d6d;
+      color: white;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    .purchase-section button:hover { background: #ff1e50; }
   </style>
 </head>
 <body>
@@ -227,6 +261,18 @@
     <button onclick="payNow('emailInputBottom')" class="buy-btn">🔥 Buy Now</button>
   </div>
 
+  <!-- New purchase section -->
+  <div class="purchase-section">
+    <h3>Access to this purchase will be sent to this email</h3>
+    <input type="email" id="emailPurchase" class="email-input" placeholder="Email Address" required>
+    <input type="tel" id="phonePurchase" class="email-input" placeholder="Phone number" required>
+    <div class="total">
+      <span>Total</span>
+      <span>₹29</span>
+    </div>
+    <button onclick="payNow('emailPurchase')">Next →</button>
+  </div>
+
   <footer>
     <p>
       <a href="/contact.html">Contact Us</a> | 
@@ -255,18 +301,18 @@
       }
 
       var options = {
-        "key": "rzp_test_V8siLEkqwO44ca", // Replace with your Razorpay Key ID
-        "amount": 4900,
+        "key": "rzp_test_V8siLEkqwO44ca",
+        "amount": 2900, // updated for ₹29
         "currency": "INR",
         "name": "Youth E-Book Rise",
         "description": "1 Crore in 365 Days",
         "image": "ebook-cover-3d.png",
         "handler": function (response){
-          // After payment success
           window.location.href = 'success.html';
         },
         "prefill": {
-          "email": email
+          "email": email,
+          "contact": document.getElementById('phonePurchase')?.value || ''
         },
         "theme": { "color": "#ff1493" }
       };
