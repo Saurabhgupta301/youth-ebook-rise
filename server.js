@@ -37,8 +37,23 @@ app.post('/verify', async (req, res) => {
 
   if (sig !== razorpay_signature) return res.status(400).send('Invalid signature');
 
-  res.redirect('/success.html');
+  // Redirect with payment_id
+  res.redirect(`/success.html?payment_id=${razorpay_payment_id}`);
 });
+
+// ✅ Secure download route
+app.get('/download', (req, res) => {
+  const paymentId = req.query.payment_id;
+
+  // Basic check: make sure paymentId exists
+  if (!paymentId) return res.status(400).send('Missing payment ID');
+
+  // TODO: Optionally verify payment status via Razorpay API before download
+
+  const filePath = __dirname + '/ebook.pdf';
+  res.download(filePath, 'Youth-Ebook-Rise.pdf');
+});
+
 
 // ✅ Webhook endpoint (NEW)
 app.post('/razorpay/webhook', (req, res) => {
