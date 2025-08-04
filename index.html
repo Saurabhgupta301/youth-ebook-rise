@@ -62,16 +62,6 @@
       color: #e91e63;
     }
 
-    .email-input {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      font-size: 1rem;
-      margin: 15px 0;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-
     .buy-btn {
       display: block;
       width: 100%;
@@ -153,10 +143,9 @@
 
     <div class="right-section">
       <div class="price">💰 Only ₹49</div>
-      <input type="email" id="emailInputTop" class="email-input" placeholder="Enter your email to receive eBook" required>
-      <button onclick="payNow('emailInputTop')" class="buy-btn">🔥 Buy Now with Razorpay</button>
+      <button onclick="payNow()" class="buy-btn">🔥 Buy Now & Download Instantly</button>
       <p style="text-align:center; font-size:0.9rem; margin-top:10px; color:#888;">
-        📩 eBook will be instantly emailed to you after successful purchase
+        📥 After successful payment, you can instantly download the eBook
       </p>
 
       <section class="purchase-counter">
@@ -198,7 +187,7 @@
        Yeh eBook un logon ke liye hai jo 1 saal dedicated focus deke apni life badalna chahte hain.</p>
 
     <h2 class="section-title">📦 What You Get:</h2>
-    <p>📩 Turant PDF Download<br>
+    <p>📥 Instant PDF Download<br>
        ♾️ Lifetime Access<br>
        📱 Mobile Friendly Format<br>
        🧩 Real Examples + Templates + Ready Checklists<br>
@@ -246,13 +235,7 @@
 
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
-    function payNow(inputId) {
-      const email = document.getElementById(inputId).value;
-      if (!email) {
-        alert("Please enter your email to receive the eBook.");
-        return;
-      }
-
+    function payNow() {
       var options = {
         "key": "rzp_test_V8siLEkqwO44ca",
         "amount": 4900,
@@ -260,10 +243,9 @@
         "name": "Youth E-Book Rise",
         "description": "1 Crore in 365 Days",
         "image": "ebook-cover-3d.png",
-        "handler": function (response){
-          window.location.href = 'success.html?email=' + encodeURIComponent(email);
+        "handler": function () {
+          window.location.href = 'success.html';
         },
-        "prefill": { "email": email },
         "theme": { "color": "#ff1493" }
       };
       var rzp = new Razorpay(options);
