@@ -65,9 +65,22 @@
     <div class="checkmark">✔️</div>
     <h1>Payment Successful 🎉</h1>
     <p>Thank you for purchasing <strong>Youth E-Book Rise</strong>!<br><br>
-       Your payment has been confirmed. Click below to download your eBook instantly.</p>
-    <a href="/ebook.pdf" download class="btn">📥 Download Your eBook</a><br>
+       Your payment has been confirmed. Click below to securely download your eBook.</p>
+    
+    <!-- Dynamically injected PAYMENT_ID -->
+    <a id="downloadBtn" class="btn">📥 Download Your eBook</a><br>
     <a href="/" class="btn">🏠 Back to Home</a>
   </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const paymentId = params.get('payment_id');
+    if (paymentId) {
+      document.getElementById('downloadBtn').href = `/download?payment_id=${paymentId}`;
+    } else {
+      document.getElementById('downloadBtn').textContent = '⚠️ Payment ID missing';
+      document.getElementById('downloadBtn').style.pointerEvents = 'none';
+    }
+  </script>
 </body>
 </html>
