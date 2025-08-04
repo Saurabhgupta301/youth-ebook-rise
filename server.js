@@ -49,13 +49,13 @@ app.post('/send-ebook', async (req, res) => {
   const { email } = req.body;
   try {
     const data = await resend.emails.send({
-      from: 'Youth E-Book <noreply@youth-ebook-rise.onrender.com>',
+      from: 'onboarding@resend.dev', // ✅ Temporary working sender
       to: email,
       subject: 'Your Youth E-Book – 1 Crore in 365 Days',
       html: `
         <p>Hi 👋</p>
         <p>Thank you for purchasing the Youth E-Book Rise 🎉</p>
-        <a href="https://yourdomain.com/ebook.pdf" 
+        <a href="https://youth-ebook-rise.onrender.com/ebook.pdf" 
            style="display:inline-block;padding:10px 20px;background:#ff1493;color:#fff;text-decoration:none;border-radius:5px;">
            📥 Download eBook
         </a>
@@ -64,7 +64,7 @@ app.post('/send-ebook', async (req, res) => {
     });
     res.json({ success: true, data });
   } catch (error) {
-    console.error(error);
+    console.error("❌ Email send error:", error);
     res.status(500).json({ success: false, error });
   }
 });
