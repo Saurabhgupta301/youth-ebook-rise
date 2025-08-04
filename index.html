@@ -24,7 +24,7 @@
 
     .container {
       width: 90%;
-      max-width: 900px;
+      max-width: 1000px;
       margin: 40px auto;
       background: white;
       padding: 30px;
@@ -32,39 +32,56 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
+    .top-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
     .ebook-cover {
+      flex: 1 1 45%;
       display: flex;
       justify-content: center;
-      margin: 20px 0;
+      align-items: center;
     }
     .ebook-cover img {
-      width: 220px;
+      width: 100%;
+      max-width: 300px;
       transform: perspective(600px) rotateY(-15deg);
       box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
       border-radius: 10px;
     }
 
-    .price {
-      text-align: center;
-      font-size: 1.5rem;
-      margin: 20px 0;
-      color: #e91e63;
+    .purchase-box {
+      flex: 1 1 45%;
+      background: #ffe4e1;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
-    .email-input {
+    .purchase-box h3 {
+      margin-top: 0;
+      color: #ff1493;
+      text-align: center;
+    }
+
+    .email-input, .phone-input {
       display: block;
       width: 100%;
       padding: 12px;
       font-size: 1rem;
-      margin: 15px 0;
+      margin: 10px 0;
       border: 1px solid #ccc;
       border-radius: 8px;
     }
 
-    .buy-btn {
+    .next-btn {
       display: block;
       width: 100%;
-      background: #ff1493;
+      background: #ff4d6d;
       color: white;
       padding: 15px;
       text-align: center;
@@ -74,8 +91,17 @@
       font-size: 1.2rem;
       margin-top: 10px;
       cursor: pointer;
+      border: none;
     }
-    .buy-btn:hover { background: #e91e63; }
+    .next-btn:hover { background: #e91e63; }
+
+    .price-display {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 10px;
+      color: #e91e63;
+    }
+    .price-display del { color: gray; font-size: 1rem; }
 
     .purchase-counter {
       text-align: center;
@@ -116,39 +142,10 @@
       margin-top: 30px;
     }
 
-    /* New purchase section */
-    .purchase-section {
-      width: 100%;
-      max-width: 400px;
-      margin: 40px auto;
-      background: #fff;
-      border: 1px solid #eee;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    @media (max-width: 768px) {
+      .top-section { flex-direction: column; align-items: center; }
+      .ebook-cover img { transform: none; }
     }
-    .purchase-section h3 {
-      font-size: 1rem;
-      margin-bottom: 10px;
-    }
-    .purchase-section .total {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    .purchase-section button {
-      background: #ff4d6d;
-      color: white;
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-top: 15px;
-    }
-    .purchase-section button:hover { background: #ff1e50; }
   </style>
 </head>
 <body>
@@ -158,8 +155,21 @@
   </header>
 
   <div class="container">
-    <div class="ebook-cover">
-      <img src="ebook-cover-3d.jpg" alt="Youth Ebook Rise Cover" />
+    <!-- Top Section: Book + Purchase Box -->
+    <div class="top-section">
+      <div class="ebook-cover">
+        <img src="ebook-cover-3d.jpg" alt="Youth Ebook Rise Cover" />
+      </div>
+      <div class="purchase-box">
+        <h3>Get Instant Access</h3>
+        <input type="email" id="topEmail" class="email-input" placeholder="Email Address" required>
+        <input type="tel" id="topPhone" class="phone-input" placeholder="Phone Number" required>
+        <div class="price-display">₹49 <del>₹1,999</del></div>
+        <button class="next-btn" onclick="payNowTop()">Next →</button>
+        <p style="text-align:center; font-size:0.9rem; margin-top:10px; color:#888;">
+          📩 Access to this purchase will be sent to your email
+        </p>
+      </div>
     </div>
 
     <h2 class="section-title">About the Book</h2>
@@ -232,13 +242,6 @@
 
     <p><strong>Author:</strong> Gopi Gour</p>
 
-    <div class="price">💰 Only ₹49</div>
-    <input type="email" id="emailInputTop" class="email-input" placeholder="Enter your email to receive eBook" required>
-    <button onclick="payNow('emailInputTop')" class="buy-btn">🔥 Buy Now with Razorpay</button>
-    <p style="text-align:center; font-size:0.9rem; margin-top:10px; color:#888;">
-      📩 eBook will be instantly emailed to you after successful purchase
-    </p>
-
     <section class="purchase-counter">
       🎉 Join <span id="buyerCount">100</span> readers who have already unlocked this blueprint!
     </section>
@@ -256,21 +259,9 @@
       </div>
     </section>
 
-    <!-- Second Buy Button -->
+    <!-- Bottom Buy Button -->
     <input type="email" id="emailInputBottom" class="email-input" placeholder="Enter your email to receive eBook" required>
-    <button onclick="payNow('emailInputBottom')" class="buy-btn">🔥 Buy Now</button>
-  </div>
-
-  <!-- New purchase section -->
-  <div class="purchase-section">
-    <h3>Access to this purchase will be sent to this email</h3>
-    <input type="email" id="emailPurchase" class="email-input" placeholder="Email Address" required>
-    <input type="tel" id="phonePurchase" class="email-input" placeholder="Phone number" required>
-    <div class="total">
-      <span>Total</span>
-      <span>₹29</span>
-    </div>
-    <button onclick="payNow('emailPurchase')">Next →</button>
+    <button onclick="payNow('emailInputBottom')" class="next-btn">🔥 Buy Now</button>
   </div>
 
   <footer>
@@ -293,6 +284,31 @@
 
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
+    function payNowTop() {
+      const email = document.getElementById('topEmail').value;
+      const phone = document.getElementById('topPhone').value;
+      if (!email || !phone) {
+        alert("Please enter both email and phone number.");
+        return;
+      }
+
+      var options = {
+        "key": "rzp_test_V8siLEkqwO44ca",
+        "amount": 4900,
+        "currency": "INR",
+        "name": "Youth E-Book Rise",
+        "description": "1 Crore in 365 Days",
+        "image": "ebook-cover-3d.png",
+        "handler": function (response){
+          window.location.href = 'success.html';
+        },
+        "prefill": { "email": email, "contact": phone },
+        "theme": { "color": "#ff1493" }
+      };
+      var rzp = new Razorpay(options);
+      rzp.open();
+    }
+
     function payNow(inputId) {
       const email = document.getElementById(inputId).value;
       if (!email) {
@@ -302,7 +318,7 @@
 
       var options = {
         "key": "rzp_test_V8siLEkqwO44ca",
-        "amount": 2900, // updated for ₹29
+        "amount": 4900,
         "currency": "INR",
         "name": "Youth E-Book Rise",
         "description": "1 Crore in 365 Days",
@@ -310,10 +326,7 @@
         "handler": function (response){
           window.location.href = 'success.html';
         },
-        "prefill": {
-          "email": email,
-          "contact": document.getElementById('phonePurchase')?.value || ''
-        },
+        "prefill": { "email": email },
         "theme": { "color": "#ff1493" }
       };
       var rzp = new Razorpay(options);
