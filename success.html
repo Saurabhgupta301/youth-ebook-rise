@@ -68,11 +68,12 @@
   <div class="thank-container">
     <div class="checkmark">✔️</div>
     <h1>Payment Successful 🎉</h1>
-    <p>Thank you for purchasing <strong>Youth E-Book Rise</strong>!<br><br>
-       Your payment has been confirmed. Click below to securely download your eBook.</p>
-    
-    <!-- Disabled by default -->
-    <a id="downloadBtn" class="btn disabled" target="_blank">
+    <p>
+      Thank you for purchasing <strong>Youth E-Book Rise</strong>!<br><br>
+      Your payment has been confirmed. Click below to securely download your eBook.
+    </p>
+
+    <a id="downloadBtn" class="btn disabled" target="_blank" rel="noopener noreferrer">
       📥 Download Your eBook
     </a><br>
     <a href="/" class="btn">🏠 Back to Home</a>
@@ -82,10 +83,11 @@
     const params = new URLSearchParams(window.location.search);
     const paymentId = params.get('payment_id');
     const btn = document.getElementById('downloadBtn');
-    
+
     if (paymentId) {
       btn.href = `/download?payment_id=${paymentId}`;
       btn.classList.remove('disabled');
+      btn.textContent = '📥 Download Your eBook';
     } else {
       btn.textContent = '⚠️ Payment ID missing';
     }
