@@ -2,11 +2,11 @@ const express = require('express');
 const Razorpay = require('razorpay');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
-const path = require('path');
 require('dotenv').config();
+const path = require('path');
 
 const app = express();
-app.use(express.static('.')); // Serves ebook.pdf and success.html
+app.use(express.static('.')); // Serves static files like success.html and ebook.pdf
 app.use(bodyParser.json());
 
 const razorpay = new Razorpay({
@@ -29,41 +29,55 @@ app.post('/create-order', async (req, res) => {
   }
 });
 
-// ✅ Verify payment and redirect to success page
+// ✅ Verify payment and redirect only if captured
 app.post('/verify', async (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
-  const sig = crypto.createHmac('sha256', process.env.RAZORPAY_SECRET)
-    .update(razorpay_order_id + "|" + razorpay_payment_id)
+
+  const expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_SECRET)
+    .update(`${razorpay_order_id}|${razorpay_payment_id}`)
     .digest('hex');
 
-  if (sig !== razorpay_signature) return res.status(400).send('Invalid signature');
+  if (expectedSignature !== razorpay_signature) {
+    console.warn('❌ Invalid signature');
+    return res.status(400).send('Invalid signature');
+  }
 
-  // Redirect with payment_id
-  res.redirect(`/success.html?payment_id=${razorpay_payment_id}`);
+  try {
+    const payment = await razorpay.payments.fetch(razorpay_payment_id);
+
+    if (payment.status === 'captured') {
+      // ✅ Legit payment, redirect with payment ID
+      res.redirect(`/success.html?payment_id=${razorpay_payment_id}`);
+    } else {
+      console.warn('❌ Payment not captured:', payment.status);
+      res.status(400).send('Payment not captured');
+    }
+  } catch (err) {
+    console.error('❌ Error verifying payment:', err);
+    res.status(500).send('Verification failed');
+  }
 });
 
-// ✅ Secure download route (with payment verification)
+// ✅ Secure download route (verifies payment before sending file)
 app.get('/download', async (req, res) => {
+  const paymentId = req.query.payment_id;
+  if (!paymentId) return res.status(400).send('Missing payment ID');
+
   try {
-    const paymentId = req.query.payment_id;
-    if (!paymentId) return res.status(400).send('Missing payment ID');
-
-    // Fetch payment details from Razorpay API
     const payment = await razorpay.payments.fetch(paymentId);
-
     if (payment.status === 'captured') {
       const filePath = path.join(__dirname, 'ebook.pdf');
       res.download(filePath, 'Youth-Ebook-Rise.pdf');
     } else {
-      res.status(403).send('Payment not verified yet. Please contact support.');
+      res.status(403).send('Payment not captured. Download denied.');
     }
-  } catch (error) {
-    console.error('❌ Download verification error:', error);
-    res.status(500).send('Error verifying payment');
+  } catch (err) {
+    console.error('❌ Error verifying payment for download:', err);
+    res.status(500).send('Unable to verify payment');
   }
 });
 
-// ✅ Webhook endpoint
+// ✅ Webhook for Razorpay (optional use)
 app.post('/razorpay/webhook', (req, res) => {
   const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
   const signature = req.headers['x-razorpay-signature'];
@@ -77,9 +91,8 @@ app.post('/razorpay/webhook', (req, res) => {
 
     if (req.body.event === 'payment.captured') {
       const paymentId = req.body.payload.payment.entity.id;
-      console.log('💰 Payment captured:', paymentId);
-
-      // 👉 TODO: send email with download link
+      console.log('💰 Webhook payment captured:', paymentId);
+      // Optional: Send email, log DB, etc.
     }
 
     res.status(200).json({ status: 'ok' });
