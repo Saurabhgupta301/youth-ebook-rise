@@ -58,6 +58,12 @@
       pointer-events: none;
       opacity: 0.6;
     }
+    .payment-id {
+      font-size: 0.85rem;
+      color: #777;
+      margin-top: 10px;
+      word-break: break-all;
+    }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -74,8 +80,11 @@
     </p>
 
     <a id="downloadBtn" class="btn disabled" target="_blank" rel="noopener noreferrer">
-      📥 Download Your eBook
-    </a><br>
+      ⏳ Preparing your download...
+    </a>
+
+    <div id="paymentIdDisplay" class="payment-id"></div>
+
     <a href="/" class="btn">🏠 Back to Home</a>
   </div>
 
@@ -83,13 +92,16 @@
     const params = new URLSearchParams(window.location.search);
     const paymentId = params.get('payment_id');
     const btn = document.getElementById('downloadBtn');
+    const pid = document.getElementById('paymentIdDisplay');
 
     if (paymentId) {
       btn.href = `/download?payment_id=${paymentId}`;
       btn.classList.remove('disabled');
       btn.textContent = '📥 Download Your eBook';
+      pid.textContent = `Payment ID: ${paymentId}`;
     } else {
       btn.textContent = '⚠️ Payment ID missing';
+      pid.textContent = '';
     }
   </script>
 </body>
