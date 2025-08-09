@@ -85,9 +85,20 @@
     const btn = document.getElementById('downloadBtn');
 
     if (paymentId) {
-      btn.href = 'ebook.pdf'; // Ensure ebook.pdf is in the same folder
-      btn.classList.remove('disabled');
-      btn.textContent = '📥 Download Your eBook';
+      // Make sure ebook.pdf is in the SAME folder as this HTML
+      fetch('ebook.pdf', { method: 'HEAD' })
+        .then(res => {
+          if (res.ok) {
+            btn.href = 'ebook.pdf';
+            btn.classList.remove('disabled');
+            btn.textContent = '📥 Download Your eBook';
+          } else {
+            btn.textContent = '❌ eBook file not found';
+          }
+        })
+        .catch(() => {
+          btn.textContent = '❌ Unable to access eBook';
+        });
     } else {
       btn.textContent = '⚠️ Payment ID missing';
     }
