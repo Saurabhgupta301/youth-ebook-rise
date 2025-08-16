@@ -258,28 +258,41 @@
 
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
-    let count = 100;
-    setInterval(() => {
-      count += Math.floor(Math.random() * 2) + 1;
-      document.getElementById('buyerCount').textContent = count;
-    }, 60000);
+  let count = 100;
+  setInterval(() => {
+    count += Math.floor(Math.random() * 2) + 1;
+    document.getElementById('buyerCount').textContent = count;
+  }, 60000);
 
-    function payNow() {
+  async function payNow() {
+    try {
+      // 1. Call backend to create Razorpay order
+      const res = await fetch("/create-order", { method: "POST" });
+      const order = await res.json();
+
+      // 2. Initialize Razorpay with order_id
       var options = {
-        "key": "rzp_live_XXw7R1A9zPzUxK",
-        "amount": 4900,
-        "currency": "INR",
+        "key": "rzp_live_XXw7R1A9zPzUxK",   // ✅ keep your live key here
+        "amount": order.amount,
+        "currency": order.currency,
         "name": "Youth E-Book Rise",
         "description": "1 Crore in 365 Days",
+        "order_id": order.id,   // ✅ the magic fix
         "image": "ebook-cover-3d.png",
         "handler": function (response) {
+          // redirect on success
           window.location.href = `/success.html?payment_id=${response.razorpay_payment_id}`;
         },
         "theme": { "color": "#ff1493" }
       };
+
       var rzp = new Razorpay(options);
       rzp.open();
+    } catch (err) {
+      console.error("❌ Payment init failed", err);
+      alert("Something went wrong. Please try again.");
     }
-  </script>
+  }
+</script>
 </body>
 </html>
