@@ -14,13 +14,14 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_SECRET
 });
 
-// ✅ Create Razorpay order
+// ✅ Create Razorpay order with auto-capture enabled
 app.post('/create-order', async (req, res) => {
   try {
     const order = await razorpay.orders.create({
-      amount: 4900, // ₹49
+      amount: 4900, // amount in paise (₹49)
       currency: 'INR',
-      receipt: 'rcpt_' + Date.now()
+      receipt: 'rcpt_' + Date.now(),
+      payment_capture: 1   // 🔥 This ensures Razorpay auto-captures
     });
     res.json(order);
   } catch (error) {
@@ -28,6 +29,7 @@ app.post('/create-order', async (req, res) => {
     res.status(500).send('Error creating order');
   }
 });
+
 
 // ✅ Verify payment and redirect only if captured
 app.post('/verify', async (req, res) => {
